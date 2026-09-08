@@ -52,4 +52,14 @@ export const MENU_TREE: MenuGroup[] = [
       { label: "シャッフル", href: "/others/shuffle" }
     ],
   },
+  {
+    label: "Optimization",
+    children: [
+      { label: "アルゴリズム比較(Benchmark)", href: "/optimization/benchmark" },
+      { label: "経路探索(Route Planner)", href: "/optimization/route-planner" },
+      { label: "ネットワーク設計(Network Designer)", href: "/optimization/network-designer" },
+      { label: "シフト作成(Shift Scheduler)", href: "/optimization/shift-scheduler" },
+    ],
+    
+  },
 ];

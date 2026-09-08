@@ -65,4 +65,17 @@ npm run test:watch        # Vitest watchモード
 
 ## 今後の指針
 
-アプリ固有のドメインロジック(quizのCRUD、ユーザー管理等)が増えてきたら、`src/components/`直下に増やし続けるのではなく`src/features/<name>/{components,hooks,api,stores}`という単位に分割する(bulletproof-react型のレイヤリング)。`src/components/`配下は引き続き機能非依存のデザインシステム層として維持し、featureへ依存させない。ただし本テンプレートは現状デモページ中心の構成のため、featureが1つも無いうちは`src/features/`を先回りして作らない(YAGNI)。
+アプリ固有のドメインロジック(quizのCRUD、ユーザー管理等)が増えてきたら、`src/components/`直下に増やし続けるのではなく`src/features/<name>/{components,hooks,api,stores}`という単位に分割する(bulletproof-react型のレイヤリング)。`src/components/`配下は引き続き機能非依存のデザインシステム層として維持し、featureへ依存させない。
+
+## DeciTima 固有(Phase 3〜)
+
+このリポジトリは DeciTima プロジェクトのフロントエンド。全体像・進行ルールはワークスペースルートの `../CLAUDE.md` と `../textbook/` を参照。
+
+- **初の `src/features/` = `src/features/optimization/`**(Phase 3。アルゴリズム比較 = Benchmark)。`{api,stores,hooks,components}` + `sample-problems.ts`。`apiFetch` + Zustand(`fetchedAt` + `isCacheFresh` の TTL キャッシュ)という既存パターンに乗せる。ページは `src/app/(pages)/optimization/`(デモの `(sample)/` ではない)、SSG のまま・取得はクライアント側。
+- **Phase 4 / 5 で `src/features/optimization/` が 3 画面に**：`benchmark`(比較専用。Phase 3)/ `route-planner/`(経路探索。Phase 4)/ `network-designer/`(MST。Phase 5)。route / network の slice は同型(`{api,stores,hooks,components,sample-problems.ts}`)だが **generic 化しない** ── `problem_type` / 解の型(`RouteSolution` / `NetworkDesignSolution`)/ 可視化コンポーネントが違う。共有は api 層の下(`apiFetch`)と型(`lib/api/types.ts`)だけ(相談ログ Q23)。store は `solve`(経路つき解を可視化)と `compare`(6 指標テーブル)の 2 action = backend の `POST /solve` / `POST /benchmark` に対応。問題入力は `ProblemJsonEditor`(サンプル選択 + JSON テキストエリア)── リッチな作図エディタは作らない。ページは SSG + `<RequireAuth>`。
+- **backend の DTO 型は `src/lib/api/types.ts` に手書き**(MVP は OpenAPI 生成しない ── `Phase-0-3.md` §6.2)。backend の `app/schemas/optimization.py` とズレたら手で直す。
+- **認証(Phase 3-5)**: benchmark / solve / verify は backend 側で認証必須(`../decitima-api` の `CurrentUserDep`)。UI の導線は `src/components/auth/{auth-api.ts(loginRequest), LoginForm.tsx}` + `src/app/(pages)/login/page.tsx`。保護ページは `<RequireAuth>` で包む(未ログインは `LoginRequiredDialog` → `/login?redirect=`)。backend の `POST /api/v1/auth/refresh` は **`{access_token}` だけ返す**(リフレッシュトークンをローテーションしない)ので、`auth-store.ts::refreshTokens()` は access だけ差し替え `refreshToken` は据え置く(テンプレの `TokenPair` 前提から修正済み)。登録画面は無い(dev は `http://localhost:8000/docs` で `POST /auth/register`)。
+- **型と振る舞いで置き場が分かれる**(相談ログ Q23)。`src/lib/api/`(`apiFetch` / `cache.ts` / `types.ts`)= backend との契約の *共有ミラー*(ドメイン非依存。全 feature が同じ backend を叩くので共有。型は状態を持たず結合ゼロ)。`src/features/optimization/{api,stores,hooks,components}/` = この feature の *振る舞い*(どの URL を叩くか / TTL キャッシュ付き Zustand / React バインディング / UI)。テンプレの「`lib` = 共有プラミング / `features/<name>` = ドメイン分割」「store は使う場所に colocate」に沿う。backend の「`schemas/` 共有・`services/`/`routes/` を操作で分割」と同型。
+- **可視化は「手描き SVG の拡張」で確定(Phase 4)**。`src/components/ui/charts/` に軸・凡例・対数軸つきの汎用チャート(`GroupedBarChart` / `MultiLineChart` ── Phase 3)と、ノード/エッジのグラフ描画 `GraphCanvas`(Phase 4。座標 or 円環レイアウト / highlight 実線 / dashed 破線 / directed 矢印 / `role="img"`。ドメイン非依存名 = 還元候補)を足す。既存の `BarChart`/`LineChart` + `theme-gradients.ts`(`useChartPalette`)+ `useHasMounted` のパターンを踏襲。**本格的な図ライブラリ(recharts / React Flow 等)は入れない** ── Phase 4 のグラフはデモ規模(〜数十ノード)で手描きで十分軽く、「手実装を主軸に境界の裏だけライブラリ」の一貫性を保つため(`Phase-0-3.md` §6.3 で確定。ガントチャート Phase 8 も同方針の見込み)。
+- **`@tamagui/next-theme` を使うコンポーネントのテスト**は `vi.mock("@tamagui/next-theme", () => ({ useThemeSetting: () => ({ resolvedTheme: "light" }) }))` で最小モックする(jsdom は `NextThemeProvider` 経由の `next/script` を解決できない)。
+- **`src/components/layout/Menu.test.tsx` は Phase 3 以前から 1 件失敗している**(旧 MENU_TREE を前提にしたテンプレートのテスト rot)。Phase 3 の変更とは無関係。

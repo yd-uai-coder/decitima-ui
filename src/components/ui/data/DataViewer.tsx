@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button, Dialog, H1, Image, Text, XStack, YStack } from "tamagui";
+import { Button, Dialog, Image, Text, XStack, YStack } from "tamagui";
 import { DataTable } from "@/components/ui/data/DataTable";
 import type { DataFilterFieldConfig } from "@/components/ui/data/DataFilter";
 import type { DataSortFieldConfig } from "@/components/ui/data/DataSort";

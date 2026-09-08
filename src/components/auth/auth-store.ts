@@ -1,9 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { apiFetch } from "@/lib/api/client";
-import type { AsyncStatus } from "@/lib/api/types";
-
-type TokenPair = { access_token: string; refresh_token: string };
+import type { AccessToken, AsyncStatus } from "@/lib/api/types";
 
 type AuthStore = {
   accessToken: string | null;
@@ -11,7 +9,7 @@ type AuthStore = {
   status: AsyncStatus;
   error: string | null;
   // 実際のログインAPI呼び出し(エンドポイントの形はアプリごとに異なるため)は呼び出し側で行い、
-  // 得られたトークンをこの関数へ渡してストアへ保存する。
+  // 得られたトークンをこの関数へ渡してストアへ保存する(DeciTima では auth-api.loginRequest)。
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
 };
@@ -83,10 +81,10 @@ function scheduleSilentRefresh(accessToken: string | null): void {
   }, delay);
 }
 
-// リフレッシュトークンをローテーションしつつアクセストークンを再発行する。バックエンドの
-// POST /api/v1/auth/refresh が {refresh_token} を受け取り {access_token, refresh_token} を
-// 返す前提(client.tsのREFRESH_PATHと対応)。実際のエンドポイント仕様に合わせて調整すること。
-// 複数箇所から同時に呼ばれても実際のリフレッシュ処理は1回にまとめる(多重リフレッシュ防止)。
+// リフレッシュトークンでアクセストークンだけを再発行する。DeciTima backend の
+// POST /api/v1/auth/refresh は {refresh_token} を受け取り {access_token} のみ返す
+// (リフレッシュトークンはローテーションしない ── だから refreshToken は据え置く)。
+// client.ts の REFRESH_PATH と対応。多重呼び出しは 1 回にまとめる(多重リフレッシュ防止)。
 export function refreshTokens(): Promise<boolean> {
   if (refreshPromise) return refreshPromise;
 
@@ -95,12 +93,12 @@ export function refreshTokens(): Promise<boolean> {
     if (!currentRefreshToken) return false;
 
     try {
-      const tokens = await apiFetch<TokenPair>("/api/v1/auth/refresh", {
+      const token = await apiFetch<AccessToken>("/api/v1/auth/refresh", {
         method: "POST",
         body: JSON.stringify({ refresh_token: currentRefreshToken }),
       });
-      useAuthStore.setState({ accessToken: tokens.access_token, refreshToken: tokens.refresh_token });
-      scheduleSilentRefresh(tokens.access_token);
+      useAuthStore.setState({ accessToken: token.access_token });
+      scheduleSilentRefresh(token.access_token);
       return true;
     } catch {
       useAuthStore.getState().logout();
