@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 7
 import type { OptimizationProblem } from "@/lib/api/types";
 
 const PLACES = [
