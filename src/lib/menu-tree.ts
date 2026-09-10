@@ -59,6 +59,7 @@ export const MENU_TREE: MenuGroup[] = [
       { label: "経路探索(Route Planner)", href: "/optimization/route-planner" },
       { label: "ネットワーク設計(Network Designer)", href: "/optimization/network-designer" },
       { label: "シフト作成(Shift Scheduler)", href: "/optimization/shift-scheduler" },
+      { label: "旅行プラン(Travel Planner)", href: "/optimization/travel-planner" },
     ],
     
   },
