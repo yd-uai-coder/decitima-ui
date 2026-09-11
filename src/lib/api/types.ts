@@ -124,6 +124,38 @@ export type TravelSolution = {
   total_time: number;
 };
 
+// ── project_scheduling(Topological Sort / CPM / RCPSP。Phase 8）───
+export type ProjectTask = {
+  id: string;
+  name?: string | null;
+  duration: number;
+  resource?: number;
+};
+
+export type TaskDependency = { id: string; predecessor: string; successor: string };
+
+export type ProjectData = {
+  problem_type: "project_scheduling";
+  tasks: ProjectTask[];
+  dependencies: TaskDependency[];
+  resource_capacity?: number | null;
+};
+
+export type ScheduledTask = {
+  task_id: string;
+  start: number;
+  finish: number;
+  slack: number;
+};
+
+export type ProjectSolution = {
+  problem_type: "project_scheduling";
+  task_order: string[];
+  schedule: ScheduledTask[];
+  critical_path: string[];
+  makespan: number;
+};
+
 
 // ── 共通スキーマ ────────────────────────────────────────────────
 export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };
@@ -153,6 +185,12 @@ export type OptimizationProblem =
       objectives: Objective[];
       constraints?: Constraint[];
       data: TravelData;
+    }
+  | {
+      problem_type: "project_scheduling";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: ProjectData;
     };
 
 export type ConstraintViolation = {
