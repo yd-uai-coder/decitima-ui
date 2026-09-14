@@ -55,7 +55,7 @@ npm run test:watch        # Vitest watchモード
 
 **Testing**: Vitest + jsdom + React Testing Library、テストは`*.test.ts(x)`としてソースの隣にcolocate。`vitest.setup.ts`が`matchMedia`(`// @vitest-environment node`を指定したテストは対象外)と`Element.prototype.scrollIntoView`(Tamaguiの`Select`が呼ぶがjsdomは未実装)をポリフィルする。
 
-**パスエイリアス**: `@/*` → `./src/*`(`tsconfig.json`で設定、Vitestは`vite-tsconfig-paths`経由で解決)。
+**パスエイリアス**: `@/*` → `./src/*`(`tsconfig.json`で設定、Vitestは Vite ネイティブの`resolve.tsconfigPaths: true`で解決)。
 
 ## 過去のセッションで見つかったハマりどころ
 

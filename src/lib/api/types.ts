@@ -156,57 +156,6 @@ export type ProjectSolution = {
   makespan: number;
 };
 
-
-// ── 共通スキーマ ────────────────────────────────────────────────
-export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };
-export type Constraint = { kind: string; severity?: "hard" | "soft"; [key: string]: unknown };
-
-export type OptimizationProblem =
-  | {
-      problem_type: "route_planning";
-      objectives: Objective[];
-      constraints?: Constraint[];
-      data: RouteData;
-    }
-  | {
-      problem_type: "network_design";
-      objectives: Objective[];
-      constraints?: Constraint[];
-      data: NetworkDesignData;
-    }
-  | {
-      problem_type: "shift_scheduling";
-      objectives: Objective[];
-      constraints?: Constraint[];
-      data: ShiftData;
-    }
-  | {
-      problem_type: "travel_planning";
-      objectives: Objective[];
-      constraints?: Constraint[];
-      data: TravelData;
-    }
-  | {
-      problem_type: "project_scheduling";
-      objectives: Objective[];
-      constraints?: Constraint[];
-      data: ProjectData;
-    };
-
-export type ConstraintViolation = {
-  constraint_kind: string;
-  severity: "hard" | "soft";
-  message: string;
-};
-
-export type CandidateSolution = {
-  status: "valid" | "invalid" | "infeasible";
-  assignments: RouteSolution | NetworkDesignSolution | ShiftSolution | TravelSolution;
-  metrics: Record<string, number>;
-  violations: ConstraintViolation[];
-  produced_by: AlgorithmMeta;
-};
-
 // ── solve ──────────────────────────────────────────────────────
 export type SolveRequest = {
   problem: OptimizationProblem;
@@ -253,6 +202,163 @@ export type BenchmarkRunRead = {
   created_at: string;
   payload: { problem: unknown; entries: BenchmarkEntry[]; runs: number };
 };
+
+
+// ── logistics_planning───────────────────────────
+export type LogisticsNode = { id: string; label?: string | null; x?: number | null; y?: number | null };
+
+export type RoadSegment = {
+  id: string;
+  source: string;
+  target: string;
+  distance: number;
+  directed?: boolean;
+};
+
+export type Vehicle = { id: string; capacity_weight: number; capacity_volume: number };
+
+export type DeliveryStop = {
+  id: string;
+  node_id: string;
+  demand_weight: number;
+  demand_volume: number;
+};
+
+export type LogisticsData = {
+  problem_type: "logistics_planning";
+  depot_id: string;
+  nodes: LogisticsNode[];
+  segments: RoadSegment[];
+  vehicles: Vehicle[];
+  deliveries: DeliveryStop[];
+};
+
+export type VehicleRoute = { vehicle_id: string; stop_ids: string[]; distance: number };
+
+export type LogisticsSolution = {
+  problem_type: "logistics_planning";
+  routes: VehicleRoute[];
+  total_distance: number;
+};
+
+
+// ── jobs ────────
+export type JobSubmitResponse = { job_id: string; status: string };
+
+export type JobStatusResponse = {
+  job_id: string;
+  problem_type: string;
+  status: "queued" | "running" | "succeeded" | "failed";
+  result?: CandidateSolution | SimulationResult | null;
+  problem_id?: string | null;
+  solution_id?: string | null;
+  error?: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+
+// ── simulate(What-if Simulation）─────────────────────
+export type ScenarioOverride = { label: string; overrides: Record<string, unknown> };
+
+export type SensitivitySpec = {
+  field_path: string;
+  low: number;
+  high: number;
+  target_metric: string;
+  threshold: number;
+  mode?: "at_most" | "at_least";
+};
+
+export type SimulationRequest = {
+  problem: OptimizationProblem;
+  algorithm?: string | null;
+  scenarios: ScenarioOverride[];
+  sensitivity?: SensitivitySpec | null;
+};
+
+export type ScenarioResult = {
+  label: string;
+  status: "valid" | "invalid" | "infeasible" | "invalid_scenario";
+  metrics: Record<string, number>;
+  algorithm_name: string | null;
+  error?: string | null;
+};
+
+export type SensitivityResult = {
+  threshold_value: number | null;
+  evaluated: Record<string, number>; // key はパラメータ値(number を JSON key にした文字列)
+};
+
+export type SimulationResult = {
+  base: ScenarioResult;
+  scenarios: ScenarioResult[];
+  sensitivity?: SensitivityResult | null;
+};
+
+
+// ── 共通スキーマ ────────────────────────────────────────────────
+export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };
+export type Constraint = { kind: string; severity?: "hard" | "soft"; [key: string]: unknown };
+
+export type OptimizationProblem =
+  | {
+      problem_type: "route_planning";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: RouteData;
+    }
+  | {
+      problem_type: "network_design";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: NetworkDesignData;
+    }
+  | {
+      problem_type: "shift_scheduling";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: ShiftData;
+    }
+  | {
+      problem_type: "travel_planning";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: TravelData;
+    }
+  | {
+      problem_type: "project_scheduling";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: ProjectData;
+    }
+  | {
+      problem_type: "logistics_planning";
+      objectives: Objective[];
+      constraints?: Constraint[];
+      data: LogisticsData;
+    };
+
+export type ConstraintViolation = {
+  constraint_kind: string;
+  severity: "hard" | "soft";
+  message: string;
+};
+
+export type CandidateSolution = {
+  status: "valid" | "invalid" | "infeasible";
+  assignments:
+    | RouteSolution
+    | NetworkDesignSolution
+    | ShiftSolution
+    | TravelSolution
+    | ProjectSolution
+    | LogisticsSolution;
+  metrics: Record<string, number>;
+  violations: ConstraintViolation[];
+  produced_by: AlgorithmMeta;
+};
+
 
 // ここまで DeciTima backend の DTO
 
