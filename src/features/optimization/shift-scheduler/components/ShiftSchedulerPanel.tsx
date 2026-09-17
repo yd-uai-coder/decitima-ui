@@ -8,6 +8,7 @@ import { ShiftGrid } from "@/features/optimization/shift-scheduler/components/Sh
 import { useShiftScheduler } from "@/features/optimization/shift-scheduler/hooks/useShiftScheduler";
 import { SHIFT_SAMPLES } from "@/features/optimization/shift-scheduler/sample-problems";
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
+import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 
 /**
  * Shift Scheduler 画面の中核。スタッフとスロットを編集 → 「作成する」でシフト表を可視化、
@@ -32,6 +33,7 @@ export function ShiftSchedulerPanel() {
       </YStack>
 
       <ProblemJsonEditor value={s.problem} samples={SHIFT_SAMPLES} onChange={s.setProblem} />
+      <AlgorithmRecommendationCard problem={s.problem} />
 
       <XStack gap="$2" flexWrap="wrap">
         <StyledButton

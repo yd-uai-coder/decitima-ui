@@ -306,6 +306,21 @@ export type StructuringResponse = {
 };
 
 
+// ── algorithm recommendation(problem_type に依存しない。─
+export type AlgorithmRecommendation = AlgorithmMeta & {
+  description: string;
+  is_rule_preferred: boolean;
+  llm_rank?: number | null;
+  llm_comment?: string | null;
+};
+
+export type RecommendationResponse = {
+  problem_type: string;
+  rule_preferred: string;
+  recommendations: AlgorithmRecommendation[];
+  notes: string[];
+};
+
 // ── 共通スキーマ ────────────────────────────────────────────────
 export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };
 export type Constraint = { kind: string; severity?: "hard" | "soft"; [key: string]: unknown };

@@ -8,6 +8,7 @@ import { RouteResultCanvas } from "@/features/optimization/route-planner/compone
 import { useRoutePlanner } from "@/features/optimization/route-planner/hooks/useRoutePlanner";
 import { ROUTE_SAMPLES } from "@/features/optimization/route-planner/sample-problems";
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
+import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 
 
 /**
@@ -32,6 +33,7 @@ export function RoutePlannerPanel() {
       </YStack>
 
       <ProblemJsonEditor value={rp.problem} samples={ROUTE_SAMPLES} onChange={rp.setProblem} />
+      <AlgorithmRecommendationCard problem={rp.problem} />
 
       <XStack gap="$2">
         <StyledButton

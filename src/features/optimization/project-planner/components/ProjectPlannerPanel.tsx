@@ -8,6 +8,7 @@ import { ProjectGanttView } from "@/features/optimization/project-planner/compon
 import { useProjectPlanner } from "@/features/optimization/project-planner/hooks/useProjectPlanner";
 import { PROJECT_SAMPLES } from "@/features/optimization/project-planner/sample-problems";
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
+import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 
 /**
  * Project Manager 画面の中核。タスク・依存・資源上限を編集 → 「スケジュールを作る」で
@@ -34,6 +35,7 @@ export function ProjectPlannerPanel() {
       </YStack>
 
       <ProblemJsonEditor value={pp.problem} samples={PROJECT_SAMPLES} onChange={pp.setProblem} />
+      <AlgorithmRecommendationCard problem={pp.problem} />
 
       <XStack gap="$2" flexWrap="wrap">
         <StyledButton

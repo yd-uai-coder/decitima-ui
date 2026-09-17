@@ -8,6 +8,7 @@ import { MstResultCanvas } from "@/features/optimization/network-designer/compon
 import { useNetworkDesigner } from "@/features/optimization/network-designer/hooks/useNetworkDesigner";
 import { NETWORK_SAMPLES } from "@/features/optimization/network-designer/sample-problems";
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
+import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 
 /**
  * Network Designer 画面の中核。拠点と敷設可能リンクを編集 → 「設計する」で MST を可視化、
@@ -31,6 +32,7 @@ export function NetworkDesignerPanel() {
       </YStack>
 
       <ProblemJsonEditor value={nd.problem} samples={NETWORK_SAMPLES} onChange={nd.setProblem} />
+      <AlgorithmRecommendationCard problem={nd.problem} /> 
 
       <XStack gap="$2">
         <StyledButton
