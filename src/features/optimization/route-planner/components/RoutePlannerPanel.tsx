@@ -7,6 +7,7 @@ import { ProblemJsonEditor } from "@/features/optimization/components/ProblemJso
 import { RouteResultCanvas } from "@/features/optimization/route-planner/components/RouteResultCanvas";
 import { useRoutePlanner } from "@/features/optimization/route-planner/hooks/useRoutePlanner";
 import { ROUTE_SAMPLES } from "@/features/optimization/route-planner/sample-problems";
+import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 
 
 /**
@@ -15,6 +16,7 @@ import { ROUTE_SAMPLES } from "@/features/optimization/route-planner/sample-prob
  */
 export function RoutePlannerPanel() {
   const rp = useRoutePlanner();
+  usePendingProblemHydration("route_planning", rp.setProblem);
   const data = rp.problem.problem_type === "route_planning" ? rp.problem.data : null;
 
   return (

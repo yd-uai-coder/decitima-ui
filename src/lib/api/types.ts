@@ -296,6 +296,15 @@ export type SimulationResult = {
   sensitivity?: SensitivityResult | null;
 };
 
+export type StructuringRequest = { text: string; conversation_id?: string | null };
+
+export type StructuringResponse = {
+  conversation_id: string;
+  problem_type: string;
+  problem: OptimizationProblem;
+  notes: string[];
+};
+
 
 // ── 共通スキーマ ────────────────────────────────────────────────
 export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };

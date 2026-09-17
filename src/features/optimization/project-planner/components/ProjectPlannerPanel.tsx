@@ -7,6 +7,7 @@ import { ProblemJsonEditor } from "@/features/optimization/components/ProblemJso
 import { ProjectGanttView } from "@/features/optimization/project-planner/components/ProjectGanttView";
 import { useProjectPlanner } from "@/features/optimization/project-planner/hooks/useProjectPlanner";
 import { PROJECT_SAMPLES } from "@/features/optimization/project-planner/sample-problems";
+import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 
 /**
  * Project Manager 画面の中核。タスク・依存・資源上限を編集 → 「スケジュールを作る」で
@@ -15,6 +16,7 @@ import { PROJECT_SAMPLES } from "@/features/optimization/project-planner/sample-
  */
 export function ProjectPlannerPanel() {
   const pp = useProjectPlanner();
+  usePendingProblemHydration("project_scheduling", pp.setProblem);
   const data = pp.problem.problem_type === "project_scheduling" ? pp.problem.data : null;
 
   return (

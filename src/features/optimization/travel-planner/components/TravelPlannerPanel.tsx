@@ -7,6 +7,7 @@ import { ProblemJsonEditor } from "@/features/optimization/components/ProblemJso
 import { TravelPlanCanvas } from "@/features/optimization/travel-planner/components/TravelPlanCanvas";
 import { useTravelPlanner } from "@/features/optimization/travel-planner/hooks/useTravelPlanner";
 import { TRAVEL_SAMPLES } from "@/features/optimization/travel-planner/sample-problems";
+import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 
 /**
  * Travel Planner 画面の中核。訪問候補・予算・時間・好みを編集 → 「プランを作る」で
@@ -14,6 +15,7 @@ import { TRAVEL_SAMPLES } from "@/features/optimization/travel-planner/sample-pr
  */
 export function TravelPlannerPanel() {
   const tp = useTravelPlanner();
+  usePendingProblemHydration("travel_planning", tp.setProblem);
   const data = tp.problem.problem_type === "travel_planning" ? tp.problem.data : null;
 
   return (

@@ -8,6 +8,7 @@ import { useJobPolling } from "@/features/optimization/hooks/useJobPolling";
 import { LogisticsRouteView } from "@/features/optimization/logistics-planner/components/LogisticsRouteView";
 import { useLogisticsPlanner } from "@/features/optimization/logistics-planner/hooks/useLogisticsPlanner";
 import { LOGISTICS_SAMPLES } from "@/features/optimization/logistics-planner/sample-problems";
+import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 
 /**
  * Logistics Optimizer 画面の中核。デポ・車両・配送先を編集 →「配送計画を作る」で
@@ -18,6 +19,7 @@ import { LOGISTICS_SAMPLES } from "@/features/optimization/logistics-planner/sam
  */
 export function LogisticsPlannerPanel() {
   const lp = useLogisticsPlanner();
+  usePendingProblemHydration("logistics_planning", lp.setProblem);
   const data = lp.problem.problem_type === "logistics_planning" ? lp.problem.data : null;
   const { job, error: jobPollError } = useJobPolling(lp.jobId);
 

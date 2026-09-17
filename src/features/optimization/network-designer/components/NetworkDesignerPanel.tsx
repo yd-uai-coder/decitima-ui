@@ -7,6 +7,7 @@ import { ProblemJsonEditor } from "@/features/optimization/components/ProblemJso
 import { MstResultCanvas } from "@/features/optimization/network-designer/components/MstResultCanvas";
 import { useNetworkDesigner } from "@/features/optimization/network-designer/hooks/useNetworkDesigner";
 import { NETWORK_SAMPLES } from "@/features/optimization/network-designer/sample-problems";
+import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 
 /**
  * Network Designer 画面の中核。拠点と敷設可能リンクを編集 → 「設計する」で MST を可視化、
@@ -14,6 +15,7 @@ import { NETWORK_SAMPLES } from "@/features/optimization/network-designer/sample
  */
 export function NetworkDesignerPanel() {
   const nd = useNetworkDesigner();
+  usePendingProblemHydration("network_design", nd.setProblem);
   const data = nd.problem.problem_type === "network_design" ? nd.problem.data : null;
 
   return (

@@ -7,6 +7,7 @@ import { ProblemJsonEditor } from "@/features/optimization/components/ProblemJso
 import { ShiftGrid } from "@/features/optimization/shift-scheduler/components/ShiftGrid";
 import { useShiftScheduler } from "@/features/optimization/shift-scheduler/hooks/useShiftScheduler";
 import { SHIFT_SAMPLES } from "@/features/optimization/shift-scheduler/sample-problems";
+import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 
 /**
  * Shift Scheduler 画面の中核。スタッフとスロットを編集 → 「作成する」でシフト表を可視化、
@@ -15,6 +16,7 @@ import { SHIFT_SAMPLES } from "@/features/optimization/shift-scheduler/sample-pr
  */
 export function ShiftSchedulerPanel() {
   const s = useShiftScheduler();
+  usePendingProblemHydration("shift_scheduling", s.setProblem);
   const data = s.problem.problem_type === "shift_scheduling" ? s.problem.data : null;
 
   return (
