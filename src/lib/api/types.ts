@@ -321,6 +321,19 @@ export type RecommendationResponse = {
   notes: string[];
 };
 
+// ── result explanation(problem_type に依存しない。）───────
+export type ExplanationResponse = {
+  solution_id: string;
+  problem_type: string;
+  algorithm_name: string;
+  why_this_solution: string;
+  key_constraints: string;
+  algorithm_rationale: string;
+  alternatives_comparison: string;
+  improvement_notes: string;
+  notes: string[];
+};
+
 // ── 共通スキーマ ────────────────────────────────────────────────
 export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };
 export type Constraint = { kind: string; severity?: "hard" | "soft"; [key: string]: unknown };

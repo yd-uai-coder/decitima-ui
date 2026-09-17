@@ -10,6 +10,7 @@ import { useLogisticsPlanner } from "@/features/optimization/logistics-planner/h
 import { LOGISTICS_SAMPLES } from "@/features/optimization/logistics-planner/sample-problems";
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
+import { ExplanationCard } from "@/features/optimization/components/ExplanationCard";
 
 /**
  * Logistics Optimizer 画面の中核。デポ・車両・配送先を編集 →「配送計画を作る」で
@@ -39,6 +40,7 @@ export function LogisticsPlannerPanel() {
 
       <ProblemJsonEditor value={lp.problem} samples={LOGISTICS_SAMPLES} onChange={lp.setProblem} />
       <AlgorithmRecommendationCard problem={lp.problem} /> 
+      <ExplanationCard problem={lp.problem} />
 
       <XStack gap="$2" flexWrap="wrap">
         <StyledButton
