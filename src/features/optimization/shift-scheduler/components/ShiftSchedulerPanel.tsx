@@ -10,6 +10,7 @@ import { SHIFT_SAMPLES } from "@/features/optimization/shift-scheduler/sample-pr
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 import { ExplanationCard } from "@/features/optimization/components/ExplanationCard";
+import { ComparisonCard } from "@/features/optimization/components/ComparisonCard";
 
 /**
  * Shift Scheduler 画面の中核。スタッフとスロットを編集 → 「作成する」でシフト表を可視化、
@@ -35,7 +36,8 @@ export function ShiftSchedulerPanel() {
 
       <ProblemJsonEditor value={s.problem} samples={SHIFT_SAMPLES} onChange={s.setProblem} />
       <AlgorithmRecommendationCard problem={s.problem} />
-      <ExplanationCard problem={s.problem} /> {/* (Phase 13) */}
+      <ExplanationCard problem={s.problem} /> 
+      <ComparisonCard problem={s.problem} />
 
       <XStack gap="$2" flexWrap="wrap">
         <StyledButton

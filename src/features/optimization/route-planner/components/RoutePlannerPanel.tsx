@@ -10,6 +10,7 @@ import { ROUTE_SAMPLES } from "@/features/optimization/route-planner/sample-prob
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 import { ExplanationCard } from "@/features/optimization/components/ExplanationCard";
+import { ComparisonCard } from "@/features/optimization/components/ComparisonCard";
 
 
 /**
@@ -36,6 +37,7 @@ export function RoutePlannerPanel() {
       <ProblemJsonEditor value={rp.problem} samples={ROUTE_SAMPLES} onChange={rp.setProblem} />
       <AlgorithmRecommendationCard problem={rp.problem} />
       <ExplanationCard problem={rp.problem} />
+      <ComparisonCard problem={rp.problem} />
 
       <XStack gap="$2">
         <StyledButton

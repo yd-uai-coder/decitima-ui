@@ -10,6 +10,7 @@ import { TRAVEL_SAMPLES } from "@/features/optimization/travel-planner/sample-pr
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 import { ExplanationCard } from "@/features/optimization/components/ExplanationCard";
+import { ComparisonCard } from "@/features/optimization/components/ComparisonCard";
 
 /**
  * Travel Planner 画面の中核。訪問候補・予算・時間・好みを編集 → 「プランを作る」で
@@ -36,6 +37,7 @@ export function TravelPlannerPanel() {
       <ProblemJsonEditor value={tp.problem} samples={TRAVEL_SAMPLES} onChange={tp.setProblem} />
       <AlgorithmRecommendationCard problem={tp.problem} /> {/* (Phase 12) */}
       <ExplanationCard problem={tp.problem} /> {/* (Phase 13) */}
+      <ComparisonCard problem={tp.problem} /> {/* (Phase 14-7) */}
 
       <XStack gap="$2">
         <StyledButton

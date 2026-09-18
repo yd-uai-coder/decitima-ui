@@ -334,6 +334,53 @@ export type ExplanationResponse = {
   notes: string[];
 };
 
+
+// ── LLM vs Algorithm comparison(problem_type に依存しない。）─
+export type ComparisonRequest = {
+  problem: OptimizationProblem;
+  algorithm?: string | null;
+  llm_runs?: number;
+};
+
+export type RunOutcome = {
+  status: string | null;
+  metrics: Record<string, number>;
+  hard_violations: number;
+  soft_violations: number;
+  elapsed_ms: number;
+  error: string | null;
+  structure_hash: string | null;
+};
+
+export type ComparisonMetrics = {
+  constraint_compliance_rate_algorithm: number;
+  constraint_compliance_rate_llm: number;
+  optimality_avg_quality_ratio_llm: number | null;
+  reproducibility_distinct_solutions_llm: number;
+  execution_time_ms_algorithm: number;
+  execution_time_ms_llm_median: number;
+  error_rate_llm: number;
+};
+
+export type ComparisonNarrative = {
+  summary: string;
+  constraint_compliance_note: string;
+  optimality_note: string;
+  reproducibility_note: string;
+  verifiability_note: string;
+};
+
+export type ComparisonResponse = {
+  problem_type: string;
+  algorithm_used: AlgorithmMeta;
+  algorithm_result: RunOutcome;
+  llm_results: RunOutcome[];
+  metrics: ComparisonMetrics;
+  narrative: ComparisonNarrative | null;
+  notes: string[];
+};
+
+
 // ── 共通スキーマ ────────────────────────────────────────────────
 export type Objective = { sense: "minimize" | "maximize"; target: string; weight?: number };
 export type Constraint = { kind: string; severity?: "hard" | "soft"; [key: string]: unknown };

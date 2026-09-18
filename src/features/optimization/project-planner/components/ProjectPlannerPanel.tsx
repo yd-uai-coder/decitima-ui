@@ -10,6 +10,7 @@ import { PROJECT_SAMPLES } from "@/features/optimization/project-planner/sample-
 import { usePendingProblemHydration } from "@/features/optimization/hooks/usePendingProblemHydration";
 import { AlgorithmRecommendationCard } from "@/features/optimization/components/AlgorithmRecommendationCard";
 import { ExplanationCard } from "@/features/optimization/components/ExplanationCard";
+import { ComparisonCard } from "@/features/optimization/components/ComparisonCard";
 
 /**
  * Project Manager 画面の中核。タスク・依存・資源上限を編集 → 「スケジュールを作る」で
@@ -37,7 +38,8 @@ export function ProjectPlannerPanel() {
 
       <ProblemJsonEditor value={pp.problem} samples={PROJECT_SAMPLES} onChange={pp.setProblem} />
       <AlgorithmRecommendationCard problem={pp.problem} />
-      <ExplanationCard problem={pp.problem} /> {/* (Phase 13) */}
+      <ExplanationCard problem={pp.problem} />
+      <ComparisonCard problem={pp.problem} />
 
       <XStack gap="$2" flexWrap="wrap">
         <StyledButton
