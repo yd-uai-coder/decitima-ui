@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 8
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { BenchmarkResponse, SolveResponse } from "@/lib/api/types";

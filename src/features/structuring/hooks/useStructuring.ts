@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8)
 "use client";
 
 import { useStructuringStore } from "../stores/structuring-store";

@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8)
 "use client";
 
 import { Spinner, Text, TextArea, XStack, YStack } from "tamagui";

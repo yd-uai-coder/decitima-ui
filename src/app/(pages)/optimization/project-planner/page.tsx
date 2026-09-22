@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 8
 import { RequireAuth } from "@/components/auth/RequireAuth";
 import { ProjectPlannerPanel } from "@/features/optimization/project-planner/components/ProjectPlannerPanel";
 

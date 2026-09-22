@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8)
 import { apiFetch } from "@/lib/api/client";
 import type { StructuringRequest, StructuringResponse } from "@/lib/api/types";
 

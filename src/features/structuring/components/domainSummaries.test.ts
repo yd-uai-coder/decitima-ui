@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 import type { OptimizationProblem } from "@/lib/api/types";

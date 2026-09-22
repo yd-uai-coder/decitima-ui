@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8)
 import { create } from "zustand";
 import { ApiError } from "@/lib/api/client";
 import type { AsyncStatus, OptimizationProblem } from "@/lib/api/types";

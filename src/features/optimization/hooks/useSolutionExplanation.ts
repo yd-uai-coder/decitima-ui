@@ -1,4 +1,3 @@
-// DeciTima samples │ 初出 Phase 13
 "use client";
 
 import { useExplanationStore } from "../stores/explanation-store";

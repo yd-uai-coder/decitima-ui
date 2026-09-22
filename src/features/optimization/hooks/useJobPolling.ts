@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 9
 "use client";
 
 import { useEffect, useState } from "react";

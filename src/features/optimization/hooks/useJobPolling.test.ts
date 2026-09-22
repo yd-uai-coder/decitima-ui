@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 9
 // @vitest-environment jsdom
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

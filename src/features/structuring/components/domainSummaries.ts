@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8)
 import type { OptimizationProblem } from "@/lib/api/types";
 
 export type SummaryItem = { label: string; value: string };

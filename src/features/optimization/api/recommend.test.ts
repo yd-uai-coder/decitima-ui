@@ -1,4 +1,3 @@
-// DeciTima samples │ 初出 Phase 12
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from "vitest";
 

@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8)
 import { create } from "zustand";
 import type { OptimizationProblem } from "@/lib/api/types";
 

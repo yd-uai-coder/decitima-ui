@@ -1,4 +1,3 @@
-// DeciTima samples │ Phase 11(11-8: カード本体 / 11-9: 確定ボタンの遷移先は共有 store)
 "use client";
 
 import { useRouter } from "next/navigation";

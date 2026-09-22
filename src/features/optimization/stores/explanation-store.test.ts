@@ -1,4 +1,3 @@
-// DeciTima samples │ 初出 Phase 13
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ExplanationResponse } from "@/lib/api/types";
